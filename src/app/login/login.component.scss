@@ -1,0 +1,52 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-field {
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+mat-form-field {
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+input[type="password"] {
+    font-size: 1rem;
+    padding: 8px 0 8px 0;
+}
+
+mat-error {
+    color: #d32f2f;
+    font-size: 0.875rem;
+    margin-top: 4px;
+}
+
+.submit-button {
+    width: 100%;
+    margin-top: 16px;
+    padding: 12px;
+    font-size: 1rem;
+    border-radius: 4px;
+    background-color: #3f51b5;
+    color: white;
+    cursor: pointer;
+}
+
+.submit-button:hover {
+    background-color: #303f9f;
+}
+
+.submit-button:disabled {
+    background-color: #c5cae9;
+}
