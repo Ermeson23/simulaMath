@@ -1,1 +1,56 @@
-<p>register works!</p>
+<div class="container">
+
+    <h2>Cadastre-se</h2>
+    <mat-form-field class="form-field">
+        <mat-label>Nome: </mat-label>
+        <input matInput placeholder="Digite o seu nome:" [formControl]="name" (blur)="nameErrorMessage()" #input maxlength="100" (input)="onInput($event)" />
+        <mat-hint align="end">{{value().length}}/100</mat-hint>
+        <mat-error *ngIf="name.invalid">{{errorMessageName()}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form-field">
+        <mat-label>Sobrenome: </mat-label>
+        <input matInput placeholder="Digite o seu sobrenome:" [formControl]="lastName" (blur)="lastNameErrorMessage()" #input maxlength="100" />
+        <mat-error *ngIf="lastName.invalid">{{errorMessageLastName()}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form-field">
+        <mat-label>E-mail: </mat-label>
+        <input matInput placeholder="email@example.com" [formControl]="email" (blur)="emailErrorMessage()" #input maxlength="100" />
+        <mat-error *ngIf="email.invalid">{{errorMessageEmail()}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form-field">
+        <mat-label>Senha: </mat-label>
+        <input matInput [type]="showPassword ? 'text' : 'password'" placeholder="Insira sua senha" [formControl]="password"
+            (blur)="passwordErrorMessage()" />
+            <mat-icon (click)="togglePasswordVisibility()" class="visibility-icon" matSuffix>visibility</mat-icon>
+        <mat-error *ngIf="password.invalid">{{ errorMessagePassword() }}</mat-error>
+    </mat-form-field>
+    
+    <mat-form-field class="form-field">
+        <mat-label>Confirmar Senha:</mat-label>
+        <input matInput [type]="showPassword ? 'text' : 'password'" placeholder="Insira sua senha" [formControl]="confirmPassword"
+            (blur)="confirmPasswordErrorMessage()" />
+            <mat-icon (click)="togglePasswordVisibility()" class="visibility-icon" matSuffix>visibility</mat-icon>
+        <mat-error *ngIf="confirmPassword.invalid">{{ errorMessageConfirmPassword() }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form-field">
+        <mat-label>Faculdade: </mat-label>
+        <input matInput type="text" placeholder="Insira sua faculdade" [formControl]="college"
+            (blur)="collegeErrorMessage()" />
+        <mat-error *ngIf="college.invalid">{{ errorMessageCollege() }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form-field">
+        <mat-label>Curso: </mat-label>
+        <input matInput type="text" placeholder="Insira o seu curso" [formControl]="course"
+            (blur)="courseErrorMessage()" />
+        <mat-error *ngIf="course.invalid">{{ errorMessageCourse() }}</mat-error>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" class="submit-button" [disabled]="!isFormValid()">Cadastre-se</button>
+
+    <p>Já tem uma conta? <a routerLink="/login">Faça Login</a></p>
+</div>

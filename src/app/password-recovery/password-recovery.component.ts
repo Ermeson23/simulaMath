@@ -7,24 +7,17 @@ import { MatInputModule } from '@angular/material/input';
 import { RouterLink } from '@angular/router';
 
 import { merge } from 'rxjs';
-import { MatIcon } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-password-recovery',
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, MatIcon, ReactiveFormsModule, NgIf, RouterLink],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, NgIf, RouterLink],
+  templateUrl: './password-recovery.component.html',
+  styleUrl: './password-recovery.component.scss'
 })
-export class LoginComponent {
-
+export class PasswordRecoveryComponent {
+  
   readonly email = new FormControl('', [Validators.required, Validators.email]);
-  readonly password = new FormControl('', [
-    Validators.required,
-    Validators.pattern('^[a-zA-Z0-9]+$')
-  ]);
-
-  showPassword: boolean = false;
 
   protected readonly value = signal('');
 
@@ -33,42 +26,27 @@ export class LoginComponent {
   }
 
   errorMessageEmail = signal('');
-  errorMessagePassword = signal('');
 
   constructor() {
     merge(this.email.statusChanges, this.email.valueChanges)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.emailErrorMessage());
-
-    merge(this.password.statusChanges, this.password.valueChanges)
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => this.passwordErrorMessage());
   }
 
   emailErrorMessage() {
     this.errorMessageEmail.set(this.getErrorMessage(this.email, 'E-mail'));
   }
 
-  passwordErrorMessage() {
-    this.errorMessagePassword.set(this.getErrorMessage(this.password, 'Senha'));
-  }
-
   getErrorMessage(control: FormControl, controlName: string): string {
     if (control.hasError('required')) {
-      return `O campo ${controlName} é obrigatório`;
-    } else if (control.hasError('email') && controlName === 'E-mail') {
+      return 'O campo e-mail é obrigatório';
+    } else if (control.hasError('email')) {
       return 'E-mail inválido';
-    } else if (control.hasError('pattern') && controlName === 'Senha') {
-      return 'Senha inválida';
     }
     return '';
   }
 
   isFormValid() {
-    return this.email.valid && this.password.valid;
-  }
-
-  togglePasswordVisibility() {
-    this.showPassword = !this.showPassword;
+    return this.email.valid;
   }
 }

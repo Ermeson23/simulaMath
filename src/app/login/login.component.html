@@ -1,19 +1,25 @@
 <div class="container">
 
     <h2>Login</h2>
+
+    <h3>Seja bem-vindo</h3>
     <mat-form-field class="form-field">
         <mat-label>E-mail: </mat-label>
-        <input matInput placeholder="email@example.com" [formControl]="email" (blur)="emailErrorMessage()" #input maxlength="100" (input)="onInput($event)" required />
+        <input matInput placeholder="email@example.com" [formControl]="email" (blur)="emailErrorMessage()" #input
+            maxlength="100" (input)="onInput($event)" />
         <mat-hint align="end">{{value().length}}/100</mat-hint>
         <mat-error *ngIf="email.invalid">{{errorMessageEmail()}}</mat-error>
     </mat-form-field>
 
     <mat-form-field class="form-field">
         <mat-label>Senha</mat-label>
-        <input matInput type="password" placeholder="Insira sua senha" [formControl]="password"
-            (blur)="passwordErrorMessage()" required />
+        <input matInput [type]="showPassword ? 'text' : 'password'" placeholder="Insira sua senha" [formControl]="password"
+            (blur)="passwordErrorMessage()" />
+        <mat-icon (click)="togglePasswordVisibility()" class="visibility-icon" matSuffix>visibility</mat-icon>
         <mat-error *ngIf="password.invalid">{{ errorMessagePassword() }}</mat-error>
     </mat-form-field>
 
     <button mat-raised-button color="primary" class="submit-button" [disabled]="!isFormValid()">Entrar</button>
+
+    <a routerLink="/passwordRecovery">Esqueci minha senha</a>
 </div>
