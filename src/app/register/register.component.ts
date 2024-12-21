@@ -4,7 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, MaxValidator, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import { max, merge } from 'rxjs';
 import { MatIcon } from '@angular/material/icon';
@@ -45,7 +45,9 @@ export class RegisterComponent {
   errorMessageCollege = signal('');
   errorMessageCourse = signal('');
 
-  constructor() {
+  constructor(
+    private router: Router
+  ) {
     merge(this.name.statusChanges, this.name.valueChanges)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.nameErrorMessage());
@@ -120,6 +122,10 @@ export class RegisterComponent {
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
+  }
+
+  onRegister() {
+    this.router.navigate(['/login']);
   }
 
 }

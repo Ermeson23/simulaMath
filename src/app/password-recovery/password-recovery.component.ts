@@ -4,7 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import { merge } from 'rxjs';
 
@@ -27,7 +27,9 @@ export class PasswordRecoveryComponent {
 
   errorMessageEmail = signal('');
 
-  constructor() {
+  constructor(
+    private router: Router
+  ) {
     merge(this.email.statusChanges, this.email.valueChanges)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.emailErrorMessage());
@@ -48,5 +50,9 @@ export class PasswordRecoveryComponent {
 
   isFormValid() {
     return this.email.valid;
+  }
+
+  onRecoveryPassword() {
+    this.router.navigate(['/login']);
   }
 }

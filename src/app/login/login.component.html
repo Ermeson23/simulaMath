@@ -19,7 +19,7 @@
         <mat-error *ngIf="password.invalid">{{ errorMessagePassword() }}</mat-error>
     </mat-form-field>
 
-    <button mat-raised-button color="primary" class="submit-button" [disabled]="!isFormValid()">Entrar</button>
+    <button mat-raised-button color="primary" class="submit-button" [disabled]="!isFormValid()" (click)="onLogin()">Entrar</button>
 
     <a routerLink="/passwordRecovery">Esqueci minha senha</a>
 </div>

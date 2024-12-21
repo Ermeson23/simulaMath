@@ -50,7 +50,7 @@
         <mat-error *ngIf="course.invalid">{{ errorMessageCourse() }}</mat-error>
     </mat-form-field>
 
-    <button mat-raised-button color="primary" class="submit-button" [disabled]="!isFormValid()">Cadastre-se</button>
+    <button mat-raised-button color="primary" class="submit-button" [disabled]="!isFormValid()" (click)="onRegister()">Cadastre-se</button>
 
     <p>Já tem uma conta? <a routerLink="/login">Faça Login</a></p>
 </div>
