@@ -112,7 +112,14 @@ export class RegisterComponent {
   }
 
   isFormValid() {
-    return this.email.valid && this.password.valid && this.confirmPassword.valid;
+    return (
+      this.username.valid &&
+      this.email.valid &&
+      this.password.valid &&
+      this.confirmPassword.valid &&
+      this.faculty.valid &&
+      this.course.valid
+    );
   }
 
   togglePasswordVisibility() {
@@ -121,7 +128,7 @@ export class RegisterComponent {
 
   onRegister() {
     let customMessage = '';
-    
+
     if (this.password.value !== this.confirmPassword.value) {
       this.registerService.message('As senhas não coincidem!');
       return;
