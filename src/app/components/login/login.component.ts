@@ -5,9 +5,14 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Router, RouterLink } from '@angular/router';
+import { MatIcon } from '@angular/material/icon';
 
 import { merge } from 'rxjs';
-import { MatIcon } from '@angular/material/icon';
+
+import { LoginRequest } from '../../model/loginRequest';
+
+import { LoginService } from '../../services/login.service';
+import { MessageService } from '../../services/message.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +23,7 @@ import { MatIcon } from '@angular/material/icon';
 })
 export class LoginComponent {
 
-  readonly email = new FormControl('', [Validators.required, Validators.email]);
+  readonly username = new FormControl('', [Validators.required]);
   readonly password = new FormControl('', [
     Validators.required,
     Validators.pattern('^[a-zA-Z0-9]+$')
@@ -32,23 +37,25 @@ export class LoginComponent {
     this.value.set((event.target as HTMLInputElement).value);
   }
 
-  errorMessageEmail = signal('');
+  errorMessageUsername = signal('');
   errorMessagePassword = signal('');
 
   constructor(
-    private router: Router
+    private router: Router,
+    private loginService: LoginService,
+    private messageService: MessageService
   ) {
-    merge(this.email.statusChanges, this.email.valueChanges)
+    merge(this.username.statusChanges, this.username.valueChanges)
       .pipe(takeUntilDestroyed())
-      .subscribe(() => this.emailErrorMessage());
+      .subscribe(() => this.usernameErrorMessage());
 
     merge(this.password.statusChanges, this.password.valueChanges)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.passwordErrorMessage());
   }
 
-  emailErrorMessage() {
-    this.errorMessageEmail.set(this.getErrorMessage(this.email, 'E-mail'));
+  usernameErrorMessage() {
+    this.errorMessageUsername.set(this.getErrorMessage(this.username, 'Nome de Usuário'));
   }
 
   passwordErrorMessage() {
@@ -58,8 +65,8 @@ export class LoginComponent {
   getErrorMessage(control: FormControl, controlName: string): string {
     if (control.hasError('required')) {
       return `O campo ${controlName} é obrigatório`;
-    } else if (control.hasError('email') && controlName === 'E-mail') {
-      return 'E-mail inválido';
+    } else if (control.hasError('username') && controlName === 'Nome de usuário') {
+      return 'Nome de usuário inválido';
     } else if (control.hasError('pattern') && controlName === 'Senha') {
       return 'Senha inválida';
     }
@@ -67,7 +74,7 @@ export class LoginComponent {
   }
 
   isFormValid() {
-    return this.email.valid && this.password.valid;
+    return this.username.valid && this.password.valid;
   }
 
   togglePasswordVisibility() {
@@ -75,6 +82,33 @@ export class LoginComponent {
   }
 
   onLogin() {
-    this.router.navigate(['/']);
+    const loginData: LoginRequest = {
+      username: this.username.value || '',
+      password: this.password.value || '',
+    };
+
+    this.loginService.login(loginData).subscribe({
+      next: (response: any) => {
+        if(response?.access) {
+          localStorage.setItem('accessToken', response.access);
+          this.messageService.message('Login realizado com sucesso!');
+        this.router.navigate(['/']);
+        }
+        else {
+          this.messageService.message('Erro ao obter token de autenticação.');
+        }
+      },
+      error: (err) => {
+        console.error('Erro ao fazer login:', err);
+
+        let customMessage = 'Erro ao fazer login.';
+
+        if (err.error?.detail) {
+          customMessage = 'Usuário ou senha inválidos.';
+        }
+
+        this.messageService.message(customMessage);
+      }
+    });
   }
 }

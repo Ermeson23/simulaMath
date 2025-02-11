@@ -5,12 +5,13 @@ import { FormControl, MaxValidator, ReactiveFormsModule, Validators } from '@ang
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Router, RouterLink } from '@angular/router';
-
-import { max, merge } from 'rxjs';
 import { MatIcon } from '@angular/material/icon';
 
-import { RegisterService } from '../../services/register.service';
+import { max, merge } from 'rxjs';
+
 import { User } from '../../model/user';
+import { RegisterService } from '../../services/register.service';
+import { MessageService } from '../../services/message.service';
 
 @Component({
   selector: 'app-register',
@@ -49,7 +50,8 @@ export class RegisterComponent {
 
   constructor(
     private router: Router,
-    private registerService: RegisterService
+    private registerService: RegisterService,
+    private messageService: MessageService
   ) {
     merge(this.username.statusChanges, this.username.valueChanges)
       .pipe(takeUntilDestroyed())
@@ -130,7 +132,7 @@ export class RegisterComponent {
     let customMessage = '';
 
     if (this.password.value !== this.confirmPassword.value) {
-      this.registerService.message('As senhas não coincidem!');
+      this.messageService.message('As senhas não coincidem!');
       return;
     }
 
@@ -143,8 +145,8 @@ export class RegisterComponent {
     };
 
     this.registerService.register(registerData).subscribe({
-      next: (response) => {
-        this.registerService.message(`Registro realizado com sucesso!, ${response}`);
+      next: () => {
+        this.messageService.message('Registro realizado com sucesso!');
         this.router.navigate(['/login']);
       },
       error: (err) => {
@@ -178,7 +180,7 @@ export class RegisterComponent {
           customMessage = 'Erro ao registrar usuário. Tente novamente!';
         }
         
-        this.registerService.message(customMessage);
+        this.messageService.message(customMessage);
       }
 
     });
