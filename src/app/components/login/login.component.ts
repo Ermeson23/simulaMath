@@ -92,7 +92,7 @@ export class LoginComponent {
         if(response?.access) {
           localStorage.setItem('accessToken', response.access);
           this.messageService.message('Login realizado com sucesso!');
-        this.router.navigate(['/']);
+        this.router.navigate(['/userProfile']);
         }
         else {
           this.messageService.message('Erro ao obter token de autenticação.');

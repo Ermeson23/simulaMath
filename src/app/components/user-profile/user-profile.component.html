@@ -1,0 +1,46 @@
+<div *ngIf="loading" class="loading">
+    <mat-spinner></mat-spinner>
+    <p>Carregando...</p>
+</div>
+
+<div *ngIf="!loading" class="user-info">
+    <h2>Minhas Informações</h2>
+
+    <div class="profile">
+        <h3>Perfil</h3>
+        <p><strong>Nome de Usuário:</strong> {{ userData.username }}</p>
+        <p><strong>Email:</strong> {{ userData.email }}</p>
+        <p><strong>Faculdade:</strong> {{ userData.faculty }}</p>
+        <p><strong>Curso:</strong> {{ userData.course }}</p>
+    </div>
+
+    <div class="feedbacks">
+        <h3>Meus Feedbacks</h3>
+        <div *ngFor="let feedback of feedbacks">
+            <mat-card class="feedback-card">
+                <mat-card-header>
+                    <mat-card-title>Feedback #{{ feedback.id }}</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>{{ feedback.message }}</p>
+                    <small><i>Criado em: {{ feedback.created_at | date:'dd/MM/yyyy HH:mm' }}</i></small>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+
+    <div class="doubts">
+        <h3>Minhas Dúvidas</h3>
+        <div *ngFor="let doubt of doubts">
+            <mat-card class="doubt-card">
+                <mat-card-header>
+                    <mat-card-title>Dúvida #{{ doubt.id }}</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>{{ doubt.doubt }}</p>
+                    <small><i>Criado em: {{ doubt.created_at | date:'dd/MM/yyyy HH:mm' }}</i></small>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>
