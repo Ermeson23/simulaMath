@@ -1,15 +1,18 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, Renderer2, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import * as d3 from 'd3';
 
 @Component({
   selector: 'app-graph',
   standalone: true,
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './graph.component.html',
-  styleUrl: './graph.component.scss'
+  styleUrls: ['./graph.component.scss']
 })
 export class GraphComponent implements OnInit, AfterViewInit {
 
+  @ViewChild('svg', { static: false }) svgElement!: ElementRef<SVGSVGElement>;
+  
   private width = 600;
   private height = 400;
   private margin = { top: 20, right: 30, bottom: 30, left: 40 };
@@ -20,10 +23,10 @@ export class GraphComponent implements OnInit, AfterViewInit {
   private svg!: d3.Selection<SVGSVGElement, unknown, null, undefined>;
   private line!: d3.Line<[number, number]>; 
 
-  private aValue: number = 1;
-  private currentFunc: Function = this.linearFunc;
+  public aValue: number = 1;
+  public currentFunc: Function = this.linearFunc;
 
-  constructor() {
+  constructor(private renderer: Renderer2) {
     this.xScale = d3.scaleLinear().domain([0.1, 3]).range([this.margin.left, this.width - this.margin.right]);
     this.yScale = d3.scaleLinear().domain([-3, 8]).range([this.height - this.margin.bottom, this.margin.top]);
   }
@@ -32,9 +35,13 @@ export class GraphComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.createGraph();
+    // Verificar se o svgElement está disponível antes de usar
+    if (this.svgElement) {
+      this.createGraph();
+    }
   }
 
+  // Funções para gerar os dados
   linearFunc(x: number, a: number = 1): number {
     return a * x;
   }
@@ -64,7 +71,8 @@ export class GraphComponent implements OnInit, AfterViewInit {
   }
 
   createGraph(): void {
-    this.svg = d3.select('svg') as unknown as d3.Selection<SVGSVGElement, unknown, null, undefined>;
+    // Usando a referência ao svgElement após a visualização ser completamente inicializada
+    this.svg = d3.select(this.svgElement.nativeElement);
 
     this.svg.append('g')
       .attr('transform', `translate(0,${this.height - this.margin.bottom})`)
@@ -80,6 +88,7 @@ export class GraphComponent implements OnInit, AfterViewInit {
 
     this.updateGraph(this.generateData(this.linearFunc, this.aValue));
 
+    // Manipulação do slider com evento do Angular
     const slider = d3.select('#aRange');
     slider.on('input', (event: any) => {
       this.aValue = +event.target.value;
@@ -87,6 +96,7 @@ export class GraphComponent implements OnInit, AfterViewInit {
       this.updateGraph(this.generateData(this.currentFunc, this.aValue));
     });
 
+    // Manipulação da seleção da função
     const chooseFunction = d3.select('#choose-function');
     chooseFunction.on('change', (event: any) => {
       const selectedValue = event.target.value;
@@ -103,5 +113,4 @@ export class GraphComponent implements OnInit, AfterViewInit {
       }
     });
   }
-
 }

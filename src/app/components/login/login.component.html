@@ -4,11 +4,11 @@
 
     <h3>Seja bem-vindo</h3>
     <mat-form-field class="form-field">
-        <mat-label>E-mail: </mat-label>
-        <input matInput placeholder="email@example.com" [formControl]="email" (blur)="emailErrorMessage()" #input
+        <mat-label>Nome de usuário: </mat-label>
+        <input matInput placeholder="george.muller" [formControl]="username" (blur)="usernameErrorMessage()" #input
             maxlength="100" (input)="onInput($event)" />
         <mat-hint align="end">{{value().length}}/100</mat-hint>
-        <mat-error *ngIf="email.invalid">{{errorMessageEmail()}}</mat-error>
+        <mat-error *ngIf="username.invalid">{{errorMessageUsername()}}</mat-error>
     </mat-form-field>
 
     <mat-form-field class="form-field">

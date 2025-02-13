@@ -5,9 +5,13 @@ import { FormControl, MaxValidator, ReactiveFormsModule, Validators } from '@ang
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Router, RouterLink } from '@angular/router';
+import { MatIcon } from '@angular/material/icon';
 
 import { max, merge } from 'rxjs';
-import { MatIcon } from '@angular/material/icon';
+
+import { User } from '../../model/user';
+import { RegisterService } from '../../services/register.service';
+import { MessageService } from '../../services/message.service';
 
 @Component({
   selector: 'app-register',
@@ -18,16 +22,15 @@ import { MatIcon } from '@angular/material/icon';
 })
 export class RegisterComponent {
 
-  readonly name = new FormControl('', [Validators.required])
-  readonly lastName = new FormControl('', [Validators.required])
+  readonly username = new FormControl('', [Validators.required])
   readonly email = new FormControl('', [Validators.required, Validators.email]);
   readonly password = new FormControl('', [
     Validators.required,
     Validators.pattern('^[a-zA-Z0-9]+$')
   ]);
   readonly confirmPassword = new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9]+$')])
-  readonly college = new FormControl('')
-  readonly course = new FormControl('')
+  readonly faculty = new FormControl('', [Validators.required])
+  readonly course = new FormControl('', [Validators.required])
 
   showPassword: boolean = false;
 
@@ -37,24 +40,22 @@ export class RegisterComponent {
     this.value.set((event.target as HTMLInputElement).value);
   }
 
-  errorMessageName = signal('');
-  errorMessageLastName = signal('');
+  errorMessageusername = signal('');
+  errorMessagelast_name = signal('');
   errorMessageEmail = signal('');
   errorMessagePassword = signal('');
   errorMessageConfirmPassword = signal('');
-  errorMessageCollege = signal('');
+  errorMessageFaculty = signal('');
   errorMessageCourse = signal('');
 
   constructor(
-    private router: Router
+    private router: Router,
+    private registerService: RegisterService,
+    private messageService: MessageService
   ) {
-    merge(this.name.statusChanges, this.name.valueChanges)
+    merge(this.username.statusChanges, this.username.valueChanges)
       .pipe(takeUntilDestroyed())
-      .subscribe(() => this.nameErrorMessage());
-
-    merge(this.lastName.statusChanges, this.lastName.valueChanges)
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => this.lastNameErrorMessage());
+      .subscribe(() => this.usernameErrorMessage());
 
     merge(this.email.statusChanges, this.email.valueChanges)
       .pipe(takeUntilDestroyed())
@@ -68,21 +69,17 @@ export class RegisterComponent {
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.confirmPasswordErrorMessage());
 
-    merge(this.college.statusChanges, this.college.valueChanges)
+    merge(this.faculty.statusChanges, this.faculty.valueChanges)
       .pipe(takeUntilDestroyed())
-      .subscribe(() => this.collegeErrorMessage());
+      .subscribe(() => this.facultyErrorMessage());
 
     merge(this.course.statusChanges, this.course.valueChanges)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.courseErrorMessage());
   }
 
-  nameErrorMessage() {
-    this.errorMessageName.set(this.getErrorMessage(this.name, 'Nome'));
-  }
-
-  lastNameErrorMessage() {
-    this.errorMessageLastName.set(this.getErrorMessage(this.lastName, 'Sobrenome'));
+  usernameErrorMessage() {
+    this.errorMessageusername.set(this.getErrorMessage(this.username, 'Nome de usuário'));
   }
 
   emailErrorMessage() {
@@ -97,8 +94,8 @@ export class RegisterComponent {
     this.errorMessageConfirmPassword.set(this.getErrorMessage(this.confirmPassword, 'Confirmação de Senha'));
   }
 
-  collegeErrorMessage() {
-    this.errorMessageCollege.set(this.getErrorMessage(this.college, 'Faculdade'));
+  facultyErrorMessage() {
+    this.errorMessageFaculty.set(this.getErrorMessage(this.faculty, 'Faculdade'));
   }
 
   courseErrorMessage() {
@@ -117,7 +114,14 @@ export class RegisterComponent {
   }
 
   isFormValid() {
-    return this.email.valid && this.password.valid && this.confirmPassword.valid;
+    return (
+      this.username.valid &&
+      this.email.valid &&
+      this.password.valid &&
+      this.confirmPassword.valid &&
+      this.faculty.valid &&
+      this.course.valid
+    );
   }
 
   togglePasswordVisibility() {
@@ -125,7 +129,61 @@ export class RegisterComponent {
   }
 
   onRegister() {
-    this.router.navigate(['/login']);
+    let customMessage = '';
+
+    if (this.password.value !== this.confirmPassword.value) {
+      this.messageService.message('As senhas não coincidem!');
+      return;
+    }
+
+    const registerData: User = {
+      username: this.username.value || '',
+      email: this.email.value || '',
+      password: this.password.value || '',
+      faculty: this.faculty.value || '',
+      course: this.course.value || ''
+    };
+
+    this.registerService.register(registerData).subscribe({
+      next: () => {
+        this.messageService.message('Registro realizado com sucesso!');
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        console.error('Erro ao registrar usuário:', err);
+
+        if (err && err.error) {
+          const errorResponse = err.error;
+
+          if (errorResponse.username) {
+            customMessage = 'Já existe um usuário com esse nome de usuário.';      
+          }
+
+          if (errorResponse.email && customMessage === '') {
+            customMessage = 'Já existe um usuário com esse email.';
+          }
+
+          if (errorResponse.password && customMessage === '') {
+            customMessage = 'Esta senha ou é muito curta, comum ou inteiramente numérica.';
+          }
+
+          if (errorResponse.faculty && customMessage === '') {
+            customMessage = 'O campo faculdade não pode ficar em branco.';
+          }
+
+          if (errorResponse.course && customMessage === '') {
+            customMessage = 'O campo curso não pode ficar em branco.';
+          }
+        }
+
+        if(customMessage === '') {
+          customMessage = 'Erro ao registrar usuário. Tente novamente!';
+        }
+        
+        this.messageService.message(customMessage);
+      }
+
+    });
   }
 
 }

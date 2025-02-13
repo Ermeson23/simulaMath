@@ -1,0 +1,27 @@
+.user-info {
+    margin: 20px;
+
+    h2 {
+        text-align: center;
+    }
+
+    .profile,
+    .feedbacks,
+    .doubts {
+        margin-bottom: 30px;
+    }
+
+    .feedback-card,
+    .doubt-card {
+        margin-bottom: 15px;
+        color: #fff;
+    }
+
+    .loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 100vh;
+    }
+}
