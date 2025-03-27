@@ -25,6 +25,8 @@ export class GraphComponent implements OnInit, AfterViewInit {
 
   public aValue: number = 1;
   public currentFunc: Function = this.linearFunc;
+  public currentFuncName: string = 'linear';
+  public currentColor: string = 'green';
 
   constructor(private renderer: Renderer2) {
     this.xScale = d3.scaleLinear().domain([0.1, 3]).range([this.margin.left, this.width - this.margin.right]);
@@ -58,14 +60,14 @@ export class GraphComponent implements OnInit, AfterViewInit {
     return d3.range(0.1, 3.1, 0.1).map(x => [x, func(x, a)]);
   }
 
-  updateGraph(data: [number, number][], color: string = 'green'): void {
+  updateGraph(data: [number, number][], color = this.currentColor): void {
     this.svg.selectAll('.line').remove();
 
     this.svg.append('path')
       .datum(data)
       .attr('class', 'line')
       .attr('fill', 'none')
-      .attr('stroke', color)
+      .attr('stroke', this.currentColor)
       .attr('stroke-width', 2)
       .attr('d', this.line);
   }
@@ -103,13 +105,16 @@ export class GraphComponent implements OnInit, AfterViewInit {
 
       if (selectedValue === 'linear') {
         this.currentFunc = this.linearFunc;
-        this.updateGraph(this.generateData(this.currentFunc, this.aValue), 'green');
+        this.currentColor = 'green';
+        this.updateGraph(this.generateData(this.currentFunc, this.aValue));
       } else if (selectedValue === 'exp') {
         this.currentFunc = this.expFunc;
-        this.updateGraph(this.generateData(this.currentFunc, this.aValue), 'orange');
+        this.currentColor = 'orange';
+        this.updateGraph(this.generateData(this.currentFunc, this.aValue));
       } else if (selectedValue === 'log') {
         this.currentFunc = this.logFunc;
-        this.updateGraph(this.generateData(this.currentFunc, this.aValue), 'red');
+        this.currentColor = 'red';
+        this.updateGraph(this.generateData(this.currentFunc, this.aValue));
       }
     });
   }

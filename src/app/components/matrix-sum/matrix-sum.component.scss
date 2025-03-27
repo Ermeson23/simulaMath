@@ -1,0 +1,157 @@
+.matrix-sum-container {
+max-width: 1200px;
+margin: 0 auto;
+padding: 2rem;
+font-family: 'Arial', sans-serif;
+
+h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 2rem;
+}
+
+.controls {
+    margin-bottom: 2rem;
+
+    .dimension-controls {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+
+    label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    input {
+        width: 60px;
+        padding: 0.5rem;
+        text-align: center;
+    }
+
+    button {
+        padding: 0.5rem 1rem;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+
+        &:hover {
+        background-color: #2980b9;
+        }
+    }
+    }
+}
+
+.matrices-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+
+    .matrix-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h3 {
+        margin-bottom: 1rem;
+        color: #34495e;
+    }
+    }
+
+    .operator {
+    font-size: 2rem;
+    align-self: center;
+    color: #7f8c8d;
+    }
+
+    .matrix {
+    border-collapse: collapse;
+
+    td {
+        width: 50px;
+        height: 50px;
+        border: 2px solid #bdc3c7;
+        text-align: center;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+
+        &.active {
+        background-color: #f1c40f;
+        font-weight: bold;
+        transform: scale(1.05);
+        }
+
+        &.calculated {
+        background-color: #2ecc71;
+        color: white;
+        font-weight: bold;
+        }
+    }
+    }
+}
+
+.action-controls {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+
+    button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s;
+
+    &:first-child {
+        background-color: #2ecc71;
+        color: white;
+
+        &:hover {
+        background-color: #27ae60;
+        }
+    }
+
+    &:nth-child(2) {
+        background-color: #3498db;
+        color: white;
+
+        &:hover {
+        background-color: #2980b9;
+        }
+
+        &:disabled {
+        background-color: #95a5a6;
+        cursor: not-allowed;
+        }
+    }
+
+    &:last-child {
+        background-color: #e74c3c;
+        color: white;
+
+        &:hover {
+        background-color: #c0392b;
+        }
+    }
+    }
+}
+
+.explanation {
+    background-color: #ecf0f1;
+    padding: 1.5rem;
+    border-radius: 8px;
+    min-height: 80px;
+    font-size: 1.1rem;
+    text-align: center;
+}
+}

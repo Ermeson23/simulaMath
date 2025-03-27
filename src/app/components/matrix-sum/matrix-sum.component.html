@@ -1,0 +1,80 @@
+<div class="matrix-sum-container">
+    <h1>Soma Interativa de Matrizes</h1>
+    
+    <div class="controls">
+      <div class="dimension-controls">
+        <label>
+          Linhas:
+          <input type="number" [(ngModel)]="dimensions.rows" min="1" max="6">
+        </label>
+        <label>
+          Colunas:
+          <input type="number" [(ngModel)]="dimensions.cols" min="1" max="6">
+        </label>
+        <button (click)="generateMatrices()">Gerar Matrizes</button>
+      </div>
+    </div>
+  
+    <div class="matrices-container">
+      <div class="matrix-wrapper">
+        <h3>Matriz A</h3>
+        <table class="matrix">
+          <tbody>
+            <tr *ngFor="let row of matrixA; trackBy: trackByIndex">
+                <td *ngFor="let cell of row; trackBy: trackByIndex" 
+                    [class.active]="cell.active">
+                  {{cell.value}}
+                </td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+  
+      <div class="operator">+</div>
+  
+      <div class="matrix-wrapper">
+        <h3>Matriz B</h3>
+        <table class="matrix">
+          <tbody>
+            <tr *ngFor="let row of matrixB; trackBy: trackByIndex">
+                <td *ngFor="let cell of row; trackBy: trackByIndex" 
+                    [class.active]="cell.active">
+                  {{cell.value}}
+                </td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+  
+      <div class="operator">=</div>
+  
+      <div class="matrix-wrapper">
+        <h3>Resultado</h3>
+        <table class="matrix">
+          <tbody>
+            <tr *ngFor="let row of resultMatrix; trackBy: trackByIndex">
+                <td *ngFor="let cell of row; trackBy: trackByIndex" 
+                    [class.active]="cell.active" 
+                    [class.calculated]="cell.calculated">
+                {{cell.calculated ? cell.value : ''}}
+                </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  
+    <div class="action-controls">
+      <button (click)="startStepByStep()">
+        {{isAnimating ? 'Parar' : 'Soma Automática'}}
+      </button>
+      <button (click)="manualStep()" [disabled]="isAnimating || currentStep >= totalSteps">
+        Passo a Passo
+      </button>
+      <button (click)="resetAll()">Reiniciar</button>
+    </div>
+  
+    <div class="explanation">
+      {{explanationText}}
+    </div>
+  </div>
