@@ -6,11 +6,10 @@ import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
 
 @Component({
-  selector: 'app-user-profile',
-  standalone: true,
-  imports: [MatProgressSpinnerModule, MatCardModule, CommonModule],
-  templateUrl: './user-profile.component.html',
-  styleUrl: './user-profile.component.scss'
+    selector: 'app-user-profile',
+    imports: [MatProgressSpinnerModule, MatCardModule, CommonModule],
+    templateUrl: './user-profile.component.html',
+    styleUrl: './user-profile.component.scss'
 })
 export class UserProfileComponent {
 

@@ -9,11 +9,10 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { GraphComponent } from './components/graph/graph.component';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet, RouterModule, MatToolbarModule, MatButtonModule, MatIconModule, NavbarComponent, GraphComponent],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+    selector: 'app-root',
+    imports: [RouterOutlet, RouterModule, MatToolbarModule, MatButtonModule, MatIconModule, NavbarComponent, GraphComponent],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.scss'
 })
 export class AppComponent {
 

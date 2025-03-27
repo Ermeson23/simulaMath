@@ -14,11 +14,10 @@ import { RegisterService } from '../../services/register.service';
 import { MessageService } from '../../services/message.service';
 
 @Component({
-  selector: 'app-register',
-  standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, MatIcon, ReactiveFormsModule, NgIf, RouterLink],
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+    selector: 'app-register',
+    imports: [MatFormFieldModule, MatInputModule, MatIcon, ReactiveFormsModule, NgIf, RouterLink],
+    templateUrl: './register.component.html',
+    styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
 

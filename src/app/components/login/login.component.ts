@@ -15,11 +15,10 @@ import { LoginService } from '../../services/login.service';
 import { MessageService } from '../../services/message.service';
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, MatIcon, ReactiveFormsModule, NgIf, RouterLink],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+    selector: 'app-login',
+    imports: [MatFormFieldModule, MatInputModule, MatIcon, ReactiveFormsModule, NgIf, RouterLink],
+    templateUrl: './login.component.html',
+    styleUrl: './login.component.scss'
 })
 export class LoginComponent {
 

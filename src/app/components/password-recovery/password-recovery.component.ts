@@ -9,11 +9,10 @@ import { Router, RouterLink } from '@angular/router';
 import { merge } from 'rxjs';
 
 @Component({
-  selector: 'app-password-recovery',
-  standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, NgIf, RouterLink],
-  templateUrl: './password-recovery.component.html',
-  styleUrl: './password-recovery.component.scss'
+    selector: 'app-password-recovery',
+    imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, NgIf, RouterLink],
+    templateUrl: './password-recovery.component.html',
+    styleUrl: './password-recovery.component.scss'
 })
 export class PasswordRecoveryComponent {
   

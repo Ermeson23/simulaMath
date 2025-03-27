@@ -4,11 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { NgFor } from '@angular/common';
 
 @Component({
-  selector: 'app-matrix-sum',
-  imports: [FormsModule, NgFor],
-  standalone: true,
-  templateUrl: './matrix-sum.component.html',
-  styleUrls: ['./matrix-sum.component.scss']
+    selector: 'app-matrix-sum',
+    imports: [FormsModule, NgFor],
+    templateUrl: './matrix-sum.component.html',
+    styleUrls: ['./matrix-sum.component.scss']
 })
 export class MatrixSumComponent implements OnInit {
   dimensions: MatrixDimensions = { rows: 2, cols: 2 };

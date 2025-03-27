@@ -3,11 +3,10 @@ import { FormsModule } from '@angular/forms';
 import * as d3 from 'd3';
 
 @Component({
-  selector: 'app-graph',
-  standalone: true,
-  imports: [FormsModule],
-  templateUrl: './graph.component.html',
-  styleUrls: ['./graph.component.scss']
+    selector: 'app-graph',
+    imports: [FormsModule],
+    templateUrl: './graph.component.html',
+    styleUrls: ['./graph.component.scss']
 })
 export class GraphComponent implements OnInit, AfterViewInit {
 

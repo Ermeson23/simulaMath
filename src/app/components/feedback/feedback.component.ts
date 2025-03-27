@@ -11,11 +11,10 @@ import { Feedback } from '../../model/feedback';
 import { DoubtService } from '../../services/doubt.service';
 
 @Component({
-  selector: 'app-feedback',
-  standalone: true,
-  imports: [MatFormField, MatInputModule, MatLabel, ReactiveFormsModule],
-  templateUrl: './feedback.component.html',
-  styleUrl: './feedback.component.scss'
+    selector: 'app-feedback',
+    imports: [MatFormField, MatInputModule, MatLabel, ReactiveFormsModule],
+    templateUrl: './feedback.component.html',
+    styleUrl: './feedback.component.scss'
 })
 export class FeedbackComponent {
 
