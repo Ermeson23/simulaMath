@@ -10,7 +10,7 @@ import { merge } from 'rxjs';
 
 @Component({
     selector: 'app-password-recovery',
-    imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, NgIf, RouterLink],
+    imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, NgIf],
     templateUrl: './password-recovery.component.html',
     styleUrl: './password-recovery.component.scss'
 })

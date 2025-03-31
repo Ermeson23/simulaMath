@@ -20,6 +20,7 @@ export class MatrixSumComponent implements OnInit {
   animationInterval: any;
   activeCells: MatrixPosition[] = [];
   explanationText = 'Clique em "Soma Automática" para começar o processo.';
+  operator: string = '+';
 
   ngOnInit(): void {
     this.generateMatrices();
@@ -91,17 +92,35 @@ export class MatrixSumComponent implements OnInit {
     this.matrixB[row][col].active = true;
     this.activeCells = [{ row, col }];
 
-    const sum = this.matrixA[row][col].value + this.matrixB[row][col].value;
+    let result = 1;
+
+    switch(this.operator) {
+      case '+':
+        result = this.matrixA[row][col].value + this.matrixB[row][col].value;
+        break;
+      case '-':
+        result = this.matrixA[row][col].value - this.matrixB[row][col].value;
+        break;
+      case '*':
+        for (let k = 0; k < this.dimensions.cols; k++) {
+            result += this.matrixA[row][k].value * this.matrixB[k][col].value;
+        }
+        break;
+      case '/':
+        result = this.matrixA[row][col].value / this.matrixB[row][col].value;
+        break;
+    }
+
     this.resultMatrix[row][col] = {
-      value: sum,
+      value: result,
       active: true,
       calculated: true
     };
 
     this.explanationText = 
       `Passo ${this.currentStep + 1} de ${this.totalSteps}: ` +
-      `A[${row+1}][${col+1}] (${this.matrixA[row][col].value}) + ` +
-      `B[${row+1}][${col+1}] (${this.matrixB[row][col].value}) = ${sum}`;
+      `A[${row+1}][${col+1}] (${this.matrixA[row][col].value}) ${this.operator} ` +
+      `B[${row+1}][${col+1}] (${this.matrixB[row][col].value}) = ${result}`;
 
     this.currentStep++;
   }

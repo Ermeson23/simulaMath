@@ -1,0 +1,62 @@
+<div class="solver-container">
+    <h1>Simulador de Sistemas de Equações Lineares</h1>
+
+    <div class="equation-input-section">
+        <h2>Entrada de Equações</h2>
+        <div *ngFor="let eq of equations; let i = index" class="equation-input">
+        <input [(ngModel)]="equations[i]" (input)="updateSystem()" placeholder="Ex: 2x + 3y = 5">
+        <button (click)="removeEquation(i)">×</button>
+        </div>
+        <button (click)="addEquation()">Adicionar Equação</button>
+    </div>
+
+    <div class="method-selection">
+        <h2>Método de Resolução</h2>
+        <select [(ngModel)]="selectedMethod">
+        <option value="gauss">Eliminação de Gauss</option>
+        <option value="gauss-seidel">Gauss-Seidel</option>
+        <option value="substitution">Substituição</option>
+        </select>
+        <button (click)="solve()" [disabled]="!system">Resolver</button>
+    </div>
+
+    <div class="visualization-toggle">
+        <button (click)="viewMode = 'matrix'" [class.active]="viewMode === 'matrix'">Visualização Matricial</button>
+        <button (click)="viewMode = 'graph'" [class.active]="viewMode === 'graph'">Visualização Gráfica</button>
+    </div>
+
+    <div *ngIf="solution" class="solution-section">
+        <h2>Solução por {{solution.method}}</h2>
+        
+        <div class="step-navigation">
+        <button (click)="prevStep()" [disabled]="currentStepIndex === 0">Anterior</button>
+        <span>Passo {{currentStepIndex + 1}} de {{solution.steps.length}}</span>
+        <button (click)="nextStep()" [disabled]="!solution || currentStepIndex === solution.steps.length - 1">Próximo</button>
+        </div>
+
+        <div *ngIf="viewMode === 'matrix'" class="matrix-view">
+        <h3>{{solution.steps[currentStepIndex].description}}</h3>
+        <app-matrix-viewer [matrix]="solution?.steps?.[currentStepIndex]?.matrix || []" 
+            [variables]="system?.variables || []">
+        </app-matrix-viewer>
+        </div>
+
+        <div *ngIf="viewMode === 'graph'" class="graph-view">
+        <app-graph-viewer *ngIf="viewMode === 'graph' && system" 
+            [system]="system"
+            [currentSolution]="solution.steps[currentStepIndex].currentSolution">
+        </app-graph-viewer>
+        </div>
+
+        <div *ngIf="currentStepIndex === solution.steps.length - 1" class="final-solution">
+        <h3>Solução Final:</h3>
+        <div *ngFor="let sol of solution.finalSolution; let i = index">
+            {{ system?.variables?.[i] || 'N/A' }} = {{ sol?.toFixed(4) || 0 }}
+        </div>
+        </div>
+    </div>
+
+    <div *ngIf="!solution && system" class="instructions">
+        <p>Clique em "Resolver" para iniciar a solução do sistema</p>
+    </div>
+</div>

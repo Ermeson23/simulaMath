@@ -6,11 +6,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { GraphComponent } from './components/graph/graph.component';
 
 @Component({
     selector: 'app-root',
-    imports: [RouterOutlet, RouterModule, MatToolbarModule, MatButtonModule, MatIconModule, NavbarComponent, GraphComponent],
+    imports: [RouterOutlet, RouterModule, MatToolbarModule, MatButtonModule, MatIconModule, NavbarComponent],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss'
 })

@@ -30,7 +30,12 @@
         </table>
       </div>
   
-      <div class="operator">+</div>
+      <select class="operator" [(ngModel)]="operator">
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">*</option>
+        <option value="/">/</option>
+      </select>
   
       <div class="matrix-wrapper">
         <h3>Matriz B</h3>

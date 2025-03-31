@@ -1,0 +1,20 @@
+<div class="graph-container">
+    <div *ngIf="system?.variables?.length === 2" class="chart-wrapper">
+        <div class="chart-header">
+        <h3>Visualização Gráfica</h3>
+        <button (click)="toggleSolution()">
+            {{showSolution ? 'Ocultar' : 'Mostrar'}} Solução
+        </button>
+        </div>
+        <canvas baseChart
+                [datasets]="lineChartData"
+                [options]="lineChartOptions"
+                [legend]="lineChartLegend"
+                [type]="lineChartType">
+        </canvas>
+    </div>
+
+    <div *ngIf="system?.variables?.length !== 2" class="unsupported-message">
+        <p>A visualização gráfica está disponível apenas para sistemas com 2 variáveis.</p>
+    </div>
+</div>
